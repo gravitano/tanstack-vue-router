@@ -12,6 +12,7 @@ import { lazyRouteComponent } from '@tanstack/vue-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520RouteImport } from './routes/대한민국'
+import { Route as TodosRouteImport } from './routes/todos'
 import { Route as RemountDepsRouteImport } from './routes/remountDeps'
 import { Route as PostsRouteImport } from './routes/posts'
 import { Route as NotRemountDepsRouteImport } from './routes/notRemountDeps'
@@ -45,6 +46,16 @@ const Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Ch
       'default',
     ),
   })
+const TodosRoute = TodosRouteImport.update({
+  id: '/todos',
+  path: '/todos',
+  getParentRoute: () => rootRouteImport,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/todos.component.vue'),
+    'default',
+  ),
+})
 const RemountDepsRoute = RemountDepsRouteImport.update({
   id: '/remountDeps',
   path: '/remountDeps',
@@ -256,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/notRemountDeps': typeof NotRemountDepsRoute
   '/posts': typeof PostsRouteWithChildren
   '/remountDeps': typeof RemountDepsRoute
+  '/todos': typeof TodosRoute
   '/대한민국': typeof Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520Route
   '/onlyrouteinside': typeof anotherGroupOnlyrouteinsideRoute
   '/inside': typeof groupInsideRoute
@@ -274,6 +286,7 @@ export interface FileRoutesByTo {
   '/editing-b': typeof EditingBRoute
   '/notRemountDeps': typeof NotRemountDepsRoute
   '/remountDeps': typeof RemountDepsRoute
+  '/todos': typeof TodosRoute
   '/대한민국': typeof Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520Route
   '/onlyrouteinside': typeof anotherGroupOnlyrouteinsideRoute
   '/inside': typeof groupInsideRoute
@@ -295,6 +308,7 @@ export interface FileRoutesById {
   '/notRemountDeps': typeof NotRemountDepsRoute
   '/posts': typeof PostsRouteWithChildren
   '/remountDeps': typeof RemountDepsRoute
+  '/todos': typeof TodosRoute
   '/대한민국': typeof Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520Route
   '/(another-group)/onlyrouteinside': typeof anotherGroupOnlyrouteinsideRoute
   '/(group)/_layout': typeof groupLayoutRouteWithChildren
@@ -318,6 +332,7 @@ export interface FileRouteTypes {
     | '/notRemountDeps'
     | '/posts'
     | '/remountDeps'
+    | '/todos'
     | '/대한민국'
     | '/onlyrouteinside'
     | '/inside'
@@ -336,6 +351,7 @@ export interface FileRouteTypes {
     | '/editing-b'
     | '/notRemountDeps'
     | '/remountDeps'
+    | '/todos'
     | '/대한민국'
     | '/onlyrouteinside'
     | '/inside'
@@ -356,6 +372,7 @@ export interface FileRouteTypes {
     | '/notRemountDeps'
     | '/posts'
     | '/remountDeps'
+    | '/todos'
     | '/대한민국'
     | '/(another-group)/onlyrouteinside'
     | '/(group)/_layout'
@@ -379,6 +396,7 @@ export interface RootRouteChildren {
   NotRemountDepsRoute: typeof NotRemountDepsRoute
   PostsRoute: typeof PostsRouteWithChildren
   RemountDepsRoute: typeof RemountDepsRoute
+  TodosRoute: typeof TodosRoute
   Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520Route: typeof Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520Route
   anotherGroupOnlyrouteinsideRoute: typeof anotherGroupOnlyrouteinsideRoute
   groupLayoutRoute: typeof groupLayoutRouteWithChildren
@@ -395,6 +413,13 @@ declare module '@tanstack/vue-router' {
       path: '/대한민국'
       fullPath: '/대한민국'
       preLoaderRoute: typeof Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/todos': {
+      id: '/todos'
+      path: '/todos'
+      fullPath: '/todos'
+      preLoaderRoute: typeof TodosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/remountDeps': {
@@ -590,6 +615,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotRemountDepsRoute: NotRemountDepsRoute,
   PostsRoute: PostsRouteWithChildren,
   RemountDepsRoute: RemountDepsRoute,
+  TodosRoute: TodosRoute,
   Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520Route:
     Char4355Char4450Char4370Char4449Char4523Char4358Char4469Char4523Char4352Char4462Char4520Route,
   anotherGroupOnlyrouteinsideRoute: anotherGroupOnlyrouteinsideRoute,

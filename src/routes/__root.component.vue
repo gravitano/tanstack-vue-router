@@ -34,6 +34,7 @@ const _state = useRouterState()
       Home
     </Link>
     <Link to="/posts" :activeProps="{ class: 'font-bold' }">Posts</Link>
+    <Link to="/todos" :activeProps="{ class: 'font-bold' }">Todos</Link>
     <Link to="/layout-a" :activeProps="{ class: 'font-bold' }">Layout</Link>
     <Link
       to="/onlyrouteinside"
