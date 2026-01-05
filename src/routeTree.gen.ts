@@ -18,10 +18,12 @@ import { Route as PostsRouteImport } from './routes/posts'
 import { Route as NotRemountDepsRouteImport } from './routes/notRemountDeps'
 import { Route as EditingBRouteImport } from './routes/editing-b'
 import { Route as EditingARouteImport } from './routes/editing-a'
+import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PostsIndexRouteImport } from './routes/posts.index'
 import { Route as PostsPostIdRouteImport } from './routes/posts.$postId'
+import { Route as ArticlesArticleIdRouteImport } from './routes/articles.$articleId'
 import { Route as LayoutLayout2RouteImport } from './routes/_layout/_layout-2'
 import { Route as groupLazyinsideRouteImport } from './routes/(group)/lazyinside'
 import { Route as groupInsideRouteImport } from './routes/(group)/inside'
@@ -106,6 +108,16 @@ const EditingARoute = EditingARouteImport.update({
     'default',
   ),
 })
+const ArticlesRoute = ArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
+  getParentRoute: () => rootRouteImport,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/articles.component.vue'),
+    'default',
+  ),
+})
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
   getParentRoute: () => rootRouteImport,
@@ -146,6 +158,16 @@ const PostsPostIdRoute = PostsPostIdRouteImport.update({
   ),
   errorComponent: lazyRouteComponent(
     () => import('./routes/posts.$postId.errorComponent.vue'),
+    'default',
+  ),
+})
+const ArticlesArticleIdRoute = ArticlesArticleIdRouteImport.update({
+  id: '/$articleId',
+  path: '/$articleId',
+  getParentRoute: () => ArticlesRoute,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/articles.$articleId.component.vue'),
     'default',
   ),
 })
@@ -262,6 +284,7 @@ const groupLayoutInsidelayoutRoute = groupLayoutInsidelayoutRouteImport
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/articles': typeof ArticlesRouteWithChildren
   '/editing-a': typeof EditingARoute
   '/editing-b': typeof EditingBRoute
   '/notRemountDeps': typeof NotRemountDepsRoute
@@ -272,6 +295,7 @@ export interface FileRoutesByFullPath {
   '/onlyrouteinside': typeof anotherGroupOnlyrouteinsideRoute
   '/inside': typeof groupInsideRoute
   '/lazyinside': typeof groupLazyinsideRoute
+  '/articles/$articleId': typeof ArticlesArticleIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/posts/': typeof PostsIndexRoute
   '/insidelayout': typeof groupLayoutInsidelayoutRoute
@@ -282,6 +306,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/articles': typeof ArticlesRouteWithChildren
   '/editing-a': typeof EditingARoute
   '/editing-b': typeof EditingBRoute
   '/notRemountDeps': typeof NotRemountDepsRoute
@@ -291,6 +316,7 @@ export interface FileRoutesByTo {
   '/onlyrouteinside': typeof anotherGroupOnlyrouteinsideRoute
   '/inside': typeof groupInsideRoute
   '/lazyinside': typeof groupLazyinsideRoute
+  '/articles/$articleId': typeof ArticlesArticleIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/posts': typeof PostsIndexRoute
   '/insidelayout': typeof groupLayoutInsidelayoutRoute
@@ -303,6 +329,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
+  '/articles': typeof ArticlesRouteWithChildren
   '/editing-a': typeof EditingARoute
   '/editing-b': typeof EditingBRoute
   '/notRemountDeps': typeof NotRemountDepsRoute
@@ -315,6 +342,7 @@ export interface FileRoutesById {
   '/(group)/inside': typeof groupInsideRoute
   '/(group)/lazyinside': typeof groupLazyinsideRoute
   '/_layout/_layout-2': typeof LayoutLayout2RouteWithChildren
+  '/articles/$articleId': typeof ArticlesArticleIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/posts/': typeof PostsIndexRoute
   '/(group)/_layout/insidelayout': typeof groupLayoutInsidelayoutRoute
@@ -327,6 +355,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/articles'
     | '/editing-a'
     | '/editing-b'
     | '/notRemountDeps'
@@ -337,6 +366,7 @@ export interface FileRouteTypes {
     | '/onlyrouteinside'
     | '/inside'
     | '/lazyinside'
+    | '/articles/$articleId'
     | '/posts/$postId'
     | '/posts/'
     | '/insidelayout'
@@ -347,6 +377,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/articles'
     | '/editing-a'
     | '/editing-b'
     | '/notRemountDeps'
@@ -356,6 +387,7 @@ export interface FileRouteTypes {
     | '/onlyrouteinside'
     | '/inside'
     | '/lazyinside'
+    | '/articles/$articleId'
     | '/posts/$postId'
     | '/posts'
     | '/insidelayout'
@@ -367,6 +399,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_layout'
+    | '/articles'
     | '/editing-a'
     | '/editing-b'
     | '/notRemountDeps'
@@ -379,6 +412,7 @@ export interface FileRouteTypes {
     | '/(group)/inside'
     | '/(group)/lazyinside'
     | '/_layout/_layout-2'
+    | '/articles/$articleId'
     | '/posts/$postId'
     | '/posts/'
     | '/(group)/_layout/insidelayout'
@@ -391,6 +425,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
+  ArticlesRoute: typeof ArticlesRouteWithChildren
   EditingARoute: typeof EditingARoute
   EditingBRoute: typeof EditingBRoute
   NotRemountDepsRoute: typeof NotRemountDepsRoute
@@ -457,6 +492,13 @@ declare module '@tanstack/vue-router' {
       preLoaderRoute: typeof EditingARouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -484,6 +526,13 @@ declare module '@tanstack/vue-router' {
       fullPath: '/posts/$postId'
       preLoaderRoute: typeof PostsPostIdRouteImport
       parentRoute: typeof PostsRoute
+    }
+    '/articles/$articleId': {
+      id: '/articles/$articleId'
+      path: '/$articleId'
+      fullPath: '/articles/$articleId'
+      preLoaderRoute: typeof ArticlesArticleIdRouteImport
+      parentRoute: typeof ArticlesRoute
     }
     '/_layout/_layout-2': {
       id: '/_layout/_layout-2'
@@ -583,6 +632,18 @@ const LayoutRouteChildren: LayoutRouteChildren = {
 const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
+interface ArticlesRouteChildren {
+  ArticlesArticleIdRoute: typeof ArticlesArticleIdRoute
+}
+
+const ArticlesRouteChildren: ArticlesRouteChildren = {
+  ArticlesArticleIdRoute: ArticlesArticleIdRoute,
+}
+
+const ArticlesRouteWithChildren = ArticlesRoute._addFileChildren(
+  ArticlesRouteChildren,
+)
+
 interface PostsRouteChildren {
   PostsPostIdRoute: typeof PostsPostIdRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -610,6 +671,7 @@ const groupLayoutRouteWithChildren = groupLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
+  ArticlesRoute: ArticlesRouteWithChildren,
   EditingARoute: EditingARoute,
   EditingBRoute: EditingBRoute,
   NotRemountDepsRoute: NotRemountDepsRoute,

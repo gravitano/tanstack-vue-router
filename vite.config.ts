@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import tailwindcss from '@tailwindcss/vite'
+import path from 'node:path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,4 +16,9 @@ export default defineConfig({
     vue(),
     vueJsx(),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
 })
