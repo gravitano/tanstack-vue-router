@@ -17,7 +17,7 @@ const _state = useRouterState()
 
 <template>
   <HeadContent />
-  <div class="flex gap-2 p-2 text-lg border-b">
+  <div class="flex gap-2 p-2 text-lg border-b hidden">
     <button
       data-testid="back-button"
       :disabled="!canGoBack"

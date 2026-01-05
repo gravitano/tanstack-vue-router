@@ -18,6 +18,7 @@ import { Route as PostsRouteImport } from './routes/posts'
 import { Route as NotRemountDepsRouteImport } from './routes/notRemountDeps'
 import { Route as EditingBRouteImport } from './routes/editing-b'
 import { Route as EditingARouteImport } from './routes/editing-a'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as IndexRouteImport } from './routes/index'
@@ -105,6 +106,16 @@ const EditingARoute = EditingARouteImport.update({
 } as any).update({
   component: lazyRouteComponent(
     () => import('./routes/editing-a.component.vue'),
+    'default',
+  ),
+})
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any).update({
+  component: lazyRouteComponent(
+    () => import('./routes/dashboard.component.vue'),
     'default',
   ),
 })
@@ -285,6 +296,7 @@ const groupLayoutInsidelayoutRoute = groupLayoutInsidelayoutRouteImport
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/articles': typeof ArticlesRouteWithChildren
+  '/dashboard': typeof DashboardRoute
   '/editing-a': typeof EditingARoute
   '/editing-b': typeof EditingBRoute
   '/notRemountDeps': typeof NotRemountDepsRoute
@@ -307,6 +319,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/articles': typeof ArticlesRouteWithChildren
+  '/dashboard': typeof DashboardRoute
   '/editing-a': typeof EditingARoute
   '/editing-b': typeof EditingBRoute
   '/notRemountDeps': typeof NotRemountDepsRoute
@@ -330,6 +343,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
   '/articles': typeof ArticlesRouteWithChildren
+  '/dashboard': typeof DashboardRoute
   '/editing-a': typeof EditingARoute
   '/editing-b': typeof EditingBRoute
   '/notRemountDeps': typeof NotRemountDepsRoute
@@ -356,6 +370,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/articles'
+    | '/dashboard'
     | '/editing-a'
     | '/editing-b'
     | '/notRemountDeps'
@@ -378,6 +393,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/articles'
+    | '/dashboard'
     | '/editing-a'
     | '/editing-b'
     | '/notRemountDeps'
@@ -400,6 +416,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_layout'
     | '/articles'
+    | '/dashboard'
     | '/editing-a'
     | '/editing-b'
     | '/notRemountDeps'
@@ -426,6 +443,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
   ArticlesRoute: typeof ArticlesRouteWithChildren
+  DashboardRoute: typeof DashboardRoute
   EditingARoute: typeof EditingARoute
   EditingBRoute: typeof EditingBRoute
   NotRemountDepsRoute: typeof NotRemountDepsRoute
@@ -490,6 +508,13 @@ declare module '@tanstack/vue-router' {
       path: '/editing-a'
       fullPath: '/editing-a'
       preLoaderRoute: typeof EditingARouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/articles': {
@@ -672,6 +697,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
   ArticlesRoute: ArticlesRouteWithChildren,
+  DashboardRoute: DashboardRoute,
   EditingARoute: EditingARoute,
   EditingBRoute: EditingBRoute,
   NotRemountDepsRoute: NotRemountDepsRoute,
